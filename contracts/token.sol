@@ -46,6 +46,9 @@ contract Token is ERC721, Ownable {
 
     }
  
+ function getTokenDetails(uint tokenId) public view returns(Enjimon memory){
+        return _tokenDetails[tokenId];
+ }
 
     //requires enjimon to be alive or they can never transfer the token
     function _beforeTokenTransfer(address from, address to, uint256 tokenId) internal override {
