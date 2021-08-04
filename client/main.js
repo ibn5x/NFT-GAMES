@@ -18,23 +18,42 @@ async function  init()  {
 }
 
 //Render NFTs here
-function renderWalletMonsters() 
+async function renderWalletMonsters() 
     {
        $('#login_button').hide();
 
         //get and render properties from smart contract
         let enjimonId = 0;
         window.web3 = await Moralis.Web3.enable();
-        let abi = await getAbi();
-
+        let abi = await getAbi()
         let contract = new web3.eth.Contract(abi, CONTRACT_ADDRESS);
-        $('#game').show();
+       let data = await contract.methods.getTokenDetails(enjimonId).call({from: ethereum.selectedAddress});
+       console.log(data);
+       renderEnjimon(0, data);
+       
+       $('#game').show();
+    }
+
+    function renderEnjimon(id, data) {
+        let canTrain = new Date( (parseInt(data.lastMeal) + 900) * 1000);
+        let deathTime = new Date( (parseInt(data.lastMeal) + parseInt(data.endurance)) * 1000);
+        $('#enjimon_id').html(id);
+        $('#enjimon_level').html(data.level);
+        $('#enjimon_endurance').html(data.endurance);
+
+        
+        $('#enjimon_damage').html(data.damage);
+        $('#enjimon_magic').html(data.magic);
+        $('#enjimon_starvation').html(deathTime);
+        $('#enjimon_training').html(canTrain);
+        
+        
     }
 
     function getAbi(){
         return new Promise( (res) => {
 
-            $.getJSON("Token.json",( (json) => {
+            $.getJSON("../build/contracts/Token.json",( (json) => {
                     res(json.abi);
             }))
 
