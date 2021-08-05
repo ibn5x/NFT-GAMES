@@ -52,7 +52,7 @@ async function renderWalletMonsters()
      
 
         let htmlString = `
-        <div class="col-md-4 card sm" style="width: 15rem;" id="enjimon_${id}">
+        <div class="col-md-3 mx-1 card sm" style="width: 15rem;" id="enjimon_${id}">
             <h4 class="card-title text-muted">Enjimon</h4>
 
                 <img class="card-img-top enjimon_img" src="./nicedog.gif" alt="Enjimon Image"></img>

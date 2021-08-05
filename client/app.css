@@ -4,4 +4,45 @@
 
 #game {
     display: none;
+    padding: 20px 0px;
+}
+
+.promo{
+    text-align: center;
+    padding-top: 150px;
+    height: 75vh;
+    background-color: #7866D5;
+    color: #fff;
+}
+
+.banner{
+    background-color: rgba(120, 102, 213, 0.8);
+    padding-top: 0px;
+    padding-bottom: 40px;
+    border-radius: 10px;
+    width: 82%;
+    text-align: center;
+    display: inline-block;
+    color: #fff;
+}
+
+.btn-homepage{
+    background-color: #2a2b56;
+    border-radius: 30px;
+    border-color: #24254b;
+    padding: 14px 3vw;
+    font-weight: 600;
+    letter-spacing: 1px;
+    margin-top: 15px;
+}
+
+.btn-homepage:hover{
+    color: #2a2b56;
+    background-color: #000000;
+    border-radius: 30px;
+    border-color: #24254b;
+    padding: 14px 3vw;
+    font-weight: 600;
+    letter-spacing: 1px;
+    margin-top: 15px;
 }
