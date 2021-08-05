@@ -21,6 +21,7 @@ async function  init()  {
 async function renderWalletMonsters() 
     {
        $('#login_button').hide();
+       $("#enjimon_row").html(""); //empty this element every time we render game -prevents rerender
 
         //get and render properties from smart contract
         //let enjimonId = 0; //testing
@@ -65,27 +66,10 @@ async function renderWalletMonsters()
                 <div><b>Enjimon Training:</b><span class="enjimon_training">${canTrain}</span></div>
 
                 <button data-enjimon-id="${id}" class="feedBtn btn btn-primary btn-block" style="margin-top: 8px;">Feed</button>
-                <button data-enjimon-id="${id}" class="trainBtn btn btn-primary btn-block" style="margin-top: 5px;">Train</button>
+                <button data-enjimon-id="${id}" class="trainBtn btn btn-secondary btn-block" style="margin-top: 5px;">Train</button>
             </div>
         </div>
         `;
-/*
-        $('#enjimon_name').html(data.enjimonName);
-        $('#enjimon_id').html(id);
-        $('#enjimon_level').html(data.level);
-        $('#enjimon_endurance').html(data.endurance); //health
-        $('#enjimon_damage').html(data.damage);
-        $('#enjimon_magic').html(data.magic);
-        $('#feedBtn').attr("data-enjimon-id", id);
-        $('#enjimon_training').html(canTrain);
-        $('#enjimon_starvation').html(deathTime);
-
-
-           if(now > canTrain){
-           canTrain = $('#trainBtn').show();
-           $('#trainBtn').attr("data-enjimon-id", id);
-        }
- */     
 
     let element = $.parseHTML(htmlString);   
     $("#enjimon_row").append(element); 
@@ -93,9 +77,8 @@ async function renderWalletMonsters()
     $(`#enjimon_${id} .feedBtn`).click(()=>{
         feed(id);
     });
-
+    //train button on click
     $(`#enjimon_${id} .trainBtn`).click(()=>{
-        
         train(id);
     });
      
