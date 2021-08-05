@@ -1,6 +1,6 @@
-Moralis.initialize("Io42YM9atPkPahd1pfkU4aclVzupfetDimHaXB2OD"); // Application id from moralis.io
-Moralis.serverURL = "https://ktg0yprtbe91.usemoralis.com:2053/server"; //Server url from moralis.io
-const CONTRACT_ADDRESS = "0x01BA8795eCAb15F4b0a68D6c85AaA35f682cb8Dd";
+Moralis.initialize("MORALIS APP ID"); // Application id from moralis.io
+Moralis.serverURL = "MORALIS SERVER"; //Server url from moralis.io
+const CONTRACT_ADDRESS = "ADDRESS HERE";
 
 async function  init()  {
     try {
