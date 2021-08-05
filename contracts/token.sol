@@ -31,7 +31,7 @@ contract Token is ERC721, Ownable {
     }
 
     function feed(uint256 tokenId) public {
-        Enjimon storage enjimon =_tokenDetails[nextId]; 
+        Enjimon storage enjimon =_tokenDetails[tokenId]; 
         
         require(enjimon.lastMeal + enjimon.endurance > block.timestamp);
         enjimon.lastMeal = block.timestamp;
@@ -39,7 +39,7 @@ contract Token is ERC721, Ownable {
 
     
    function train(uint256 tokenId) public {
-        Enjimon storage enjimon =_tokenDetails[nextId];
+        Enjimon storage enjimon =_tokenDetails[tokenId];
 
         require(block.timestamp > enjimon.lastTrained + fTeen);
         enjimon.level+=1;
@@ -52,7 +52,7 @@ contract Token is ERC721, Ownable {
 
     //requires enjimon to be alive or they can never transfer the token
     function _beforeTokenTransfer(address from, address to, uint256 tokenId) internal override {
-        Enjimon storage enjimon =_tokenDetails[nextId];
+        Enjimon storage enjimon =_tokenDetails[tokenId];
         
         require(enjimon.lastMeal + enjimon.endurance > block.timestamp); //must be alive
     }
