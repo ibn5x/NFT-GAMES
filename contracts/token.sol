@@ -60,7 +60,7 @@ contract Token is ERC721, Ownable {
         }
     else
         {
-            uint[] memory result = new uint256[](tokenCount);
+            uint256[] memory result = new uint256[](tokenCount);
             uint256 totalEnjimon = nextId;
             uint256 i;
             uint256 resIndex = 0;

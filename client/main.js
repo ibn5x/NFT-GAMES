@@ -1,6 +1,6 @@
 Moralis.initialize("Io42YM9atPkPahd1pfkU4aclVzupfetDimHaXB2OD"); // Application id from moralis.io
 Moralis.serverURL = "https://ktg0yprtbe91.usemoralis.com:2053/server"; //Server url from moralis.io
-const CONTRACT_ADDRESS = "0xD9A218e01F8b409E53C0E9de5B4944E3e6D2712f";
+const CONTRACT_ADDRESS = "0xE83E680F997f0d218d1F481EA923364ea628437C";
 
 async function  init()  {
     try {
@@ -23,14 +23,16 @@ async function renderWalletMonsters()
        $('#login_button').hide();
 
         //get and render properties from smart contract
-        let enjimonId = 0;
+        //let enjimonId = 0; //testing
         window.web3 = await Moralis.Web3.enable();
         let abi = await getAbi()
         let contract = new web3.eth.Contract(abi, CONTRACT_ADDRESS);
-        let data = await contract.methods.getTokenDetails(enjimonId).call({from: ethereum.selectedAddress});
-        console.log(data);
-        renderEnjimon(0, data);
-       
+        let array = await contract.methods.getAllTokensForUser(ethereum.selectedAddress).call({from: ethereum.selectedAddress});
+        if(array.length == 0) return;
+        array.forEach( async (enjimonId) => {
+            let details = await contract.methods.getTokenDetails(enjimonId).call({from: ethereum.selectedAddress});
+            renderEnjimon(enjimonId, details);
+        });
        $('#game').show();
     }
 
@@ -38,6 +40,36 @@ async function renderWalletMonsters()
         let canTrain = new Date( (parseInt(data.lastTrained) + 900) * 1000);
         let deathTime = new Date( (parseInt(data.lastMeal) + parseInt(data.endurance)) * 1000);
         let now = new Date();
+
+        //vital function calc logic
+        if(now > deathTime){
+            deathTime = "<b>DEAD</b>"
+        }
+        
+        
+     
+
+        let htmlString = `
+        <div class="col-md-4 card sm" style="width: 15rem;" id="enjimon_${id}">
+            <h4 class="card-title text-muted">Enjimon</h4>
+                                            
+            <img class="card-img-top enjimon_img" src="nicedog.gif" alt="Enjimon Image">
+            <h6 class="card-subtitle mb-2 text-muted enjimon_name"><span class="enjimon_name">${data.enjimonName}</span></h6>
+            <div class="car-body">
+                <div>Enjimon Id: <span class="enjimon_id">${id}</span></div>
+                <div>Level: <span class="enjimon_level">${data.level}</span></div>
+                <div>Health: <span class="enjimon_endurance">${data.endurance}</span></div>
+                <div>Attack: <span class="enjimon_damage">${data.damage}</span></div>
+                <div>Magic: <span class="enjimon_magic">${data.magic}</span></div>
+                <div><b>Time to Starvation:</b> <span class="enjimon_starvation">${deathTime}</span></div>
+                <div><b>Enjimon Training:</b><span class="enjimon_training">${canTrain}</span></div>
+
+                <button data-enjimon-id="${id}" class="feedBtn btn btn-primary btn-block" style="margin-top: 8px;">Feed</button>
+                <button data-enjimon-id="${id}" class="trainBtn btn btn-primary btn-block" style="margin-top: 5px;">Train</button>
+            </div>
+        </div>
+        `;
+/*
         $('#enjimon_name').html(data.enjimonName);
         $('#enjimon_id').html(id);
         $('#enjimon_level').html(data.level);
@@ -45,24 +77,34 @@ async function renderWalletMonsters()
         $('#enjimon_damage').html(data.damage);
         $('#enjimon_magic').html(data.magic);
         $('#feedBtn').attr("data-enjimon-id", id);
-
-        if(now > deathTime){
-            deathTime = "<b>DEAD</b>"
-        }
+        $('#enjimon_training').html(canTrain);
         $('#enjimon_starvation').html(deathTime);
-        
-        if(now > canTrain){
+
+
+           if(now > canTrain){
            canTrain = $('#trainBtn').show();
            $('#trainBtn').attr("data-enjimon-id", id);
         }
-        $('#enjimon_training').html(canTrain);
+ */     
+
+    let element = $.parseHTML(htmlString);   
+    $("#enjimon_row").append(element); 
+
+    $(`#enjimon_${id} .feedBtn`).click(()=>{
+        feed(id);
+    });
+
+    $(`#enjimon_${id} .trainBtn`).click(()=>{
         
+        train(id);
+    });
+     
     }
 
     function getAbi(){
         return new Promise( (res) => {
 
-            $.getJSON("../build/contracts/Token.json",( (json) => {
+            $.getJSON("Token.json",( (json) => {
                     res(json.abi);
             }))
 
@@ -93,19 +135,7 @@ async function renderWalletMonsters()
         }))
     }
 
-    $('#feedBtn').click(()=>{
-        let enjimonId = $('#feedBtn').attr("data-enjimon-id");
-        
-        feed(enjimonId);
-    })
-
-    $('#trainBtn').click(()=>{
-        let enjimonId = $('#trainBtn').attr("data-enjimon-id");
-        
-        train(enjimonId);
-    })
-
 
 init()
 
-document.getElementById("login_button").onclick = login;
+//document.getElementById("login_button").onclick = login;
