@@ -1,6 +1,6 @@
 Moralis.initialize("Io42YM9atPkPahd1pfkU4aclVzupfetDimHaXB2OD"); // Application id from moralis.io
 Moralis.serverURL = "https://ktg0yprtbe91.usemoralis.com:2053/server"; //Server url from moralis.io
-const CONTRACT_ADDRESS = "0xE83E680F997f0d218d1F481EA923364ea628437C";
+const CONTRACT_ADDRESS = "0x01BA8795eCAb15F4b0a68D6c85AaA35f682cb8Dd";
 
 async function  init()  {
     try {
@@ -41,7 +41,8 @@ async function renderWalletMonsters()
         let canTrain = new Date( (parseInt(data.lastTrained) + 900) * 1000);
         let deathTime = new Date( (parseInt(data.lastMeal) + parseInt(data.endurance)) * 1000);
         let now = new Date();
-
+        let imgs = ["./nicedog.gif", "./jazzy.gif","./nicedog.gif"];
+        
         //vital function calc logic
         if(now > deathTime){
             deathTime = "<b>DEAD</b>"
@@ -53,8 +54,9 @@ async function renderWalletMonsters()
         let htmlString = `
         <div class="col-md-4 card sm" style="width: 15rem;" id="enjimon_${id}">
             <h4 class="card-title text-muted">Enjimon</h4>
-                                            
-            <img class="card-img-top enjimon_img" src="nicedog.gif" alt="Enjimon Image">
+
+                <img class="card-img-top enjimon_img" src="./nicedog.gif" alt="Enjimon Image"></img>
+                
             <h6 class="card-subtitle mb-2 text-muted enjimon_name"><span class="enjimon_name">${data.enjimonName}</span></h6>
             <div class="car-body">
                 <div>Enjimon Id: <span class="enjimon_id">${id}</span></div>
@@ -72,6 +74,7 @@ async function renderWalletMonsters()
         `;
 
     let element = $.parseHTML(htmlString);   
+        
     $("#enjimon_row").append(element); 
 
     $(`#enjimon_${id} .feedBtn`).click(()=>{
@@ -81,6 +84,8 @@ async function renderWalletMonsters()
     $(`#enjimon_${id} .trainBtn`).click(()=>{
         train(id);
     });
+
+   
      
     }
 
