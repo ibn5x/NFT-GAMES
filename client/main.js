@@ -1,6 +1,6 @@
 Moralis.initialize("Io42YM9atPkPahd1pfkU4aclVzupfetDimHaXB2OD"); // Application id from moralis.io
 Moralis.serverURL = "https://ktg0yprtbe91.usemoralis.com:2053/server"; //Server url from moralis.io
-const CONTRACT_ADDRESS = "0xDcc97c2d51a2D47210f3Cd47CB0F71D0fdf42F51";
+const CONTRACT_ADDRESS = "0xD9A218e01F8b409E53C0E9de5B4944E3e6D2712f";
 
 async function  init()  {
     try {
@@ -27,17 +27,18 @@ async function renderWalletMonsters()
         window.web3 = await Moralis.Web3.enable();
         let abi = await getAbi()
         let contract = new web3.eth.Contract(abi, CONTRACT_ADDRESS);
-       let data = await contract.methods.getTokenDetails(enjimonId).call({from: ethereum.selectedAddress});
-       console.log(data);
-       renderEnjimon(0, data);
+        let data = await contract.methods.getTokenDetails(enjimonId).call({from: ethereum.selectedAddress});
+        console.log(data);
+        renderEnjimon(0, data);
        
        $('#game').show();
     }
 
     function renderEnjimon(id, data) {
-        let canTrain = new Date( (parseInt(data.lastMeal) + 900) * 1000);
+        let canTrain = new Date( (parseInt(data.lastTrained) + 900) * 1000);
         let deathTime = new Date( (parseInt(data.lastMeal) + parseInt(data.endurance)) * 1000);
         let now = new Date();
+        $('#enjimon_name').html(data.enjimonName);
         $('#enjimon_id').html(id);
         $('#enjimon_level').html(data.level);
         $('#enjimon_endurance').html(data.endurance); //health
@@ -51,7 +52,6 @@ async function renderWalletMonsters()
         $('#enjimon_starvation').html(deathTime);
         
         if(now > canTrain){
-           // canTrain = "<b>Training Available</b>"
            canTrain = $('#trainBtn').show();
            $('#trainBtn').attr("data-enjimon-id", id);
         }
@@ -76,7 +76,7 @@ async function renderWalletMonsters()
         let contract = new web3.eth.Contract(abi, CONTRACT_ADDRESS);
 
         contract.methods.feed(enjimonId).send({from: ethereum.selectedAddress}).on("receipt", ( () => {
-            console.log("Done!");
+            console.log("Done! " + enjimonId.enjimonName + " has been fed.");
 
             renderWalletMonsters();
         }))
@@ -87,7 +87,7 @@ async function renderWalletMonsters()
         let contract = new web3.eth.Contract(abi, CONTRACT_ADDRESS);
 
         contract.methods.train(enjimonId).send({from: ethereum.selectedAddress}).on("receipt", ( () => {
-            console.log("Done Training!");
+            console.log("Great Job!! " + enjimonId.enjimonName + " is tired, train again later.");
 
             renderWalletMonsters();
         }))

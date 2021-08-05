@@ -5,6 +5,7 @@ import "../node_modules/@openzeppelin/contracts/access/Ownable.sol"; //managemen
 
 contract Token is ERC721, Ownable {
     struct Enjimon {
+        string enjimonName;
         uint8 damage; //0-255
         uint8 magic; 
         uint256 endurance;
@@ -20,9 +21,9 @@ contract Token is ERC721, Ownable {
 
     constructor(string memory name, string memory symbol) ERC721(name, symbol){}
 
-    function mint(uint8 damage, uint8 magic, uint endurance, uint8 level) public onlyOwner {
+    function mint(string memory enjimonName, uint8 damage, uint8 magic, uint endurance, uint8 level) public onlyOwner {
 
-        _tokenDetails[nextId] = Enjimon(damage, magic, endurance, level, block.timestamp, block.timestamp);
+        _tokenDetails[nextId] = Enjimon(enjimonName, damage, magic, endurance, level, block.timestamp, block.timestamp);
         
         _safeMint(msg.sender, nextId);
         
@@ -42,6 +43,7 @@ contract Token is ERC721, Ownable {
         Enjimon storage enjimon =_tokenDetails[tokenId];
 
         require(block.timestamp > enjimon.lastTrained + fTeen);
+        enjimon.lastTrained = block.timestamp;
         enjimon.level+=1;
 
     }

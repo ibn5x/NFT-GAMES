@@ -21,26 +21,27 @@
     <div class="container">
         <button id="login_button">Sign in with MetaMask</button>
         <div id="game">
-            <div class="row" style="display: flex; flex-flow: column;">
-                
-                <div class="card sm" style="width: 20rem; margin-left: 5px">
-                    <h4 class="card-title">Enjimon</h4>
-                    <img class="card-img-top sm" src="enjimon.png" id="enjimon_img" alt="Enjimon Image">
-                    <h6 class="card-subtitle mb-2 text-muted">Vitalic Zed</h6>
-                    <div class="card-body sm" style="width: 20rem;">
-                        <div>Id: <span id="enjimon_id"></span></div>
-                        <div>Level: <span id="enjimon_level"></span></div>
-                        <div>Health: <span id="enjimon_endurance"></span></div>
-                        <div>Attack: <span id="enjimon_damage"></span></div>
-                        <div>Magic: <span id="enjimon_magic"></span></div>
-                        <div><b>Time to Starvation:</b> <span id="enjimon_starvation"></span></div>
-                        <div><b>Enjimon Training:</b> <span id="enjimon_training"><button class="btn btn-primary"id="trainBtn" style="display: none; margin-left:10px">Train</button></span>
-                            <button class="btn btn-primary"id="trainBtn" style="display: none; margin-left:10px">Train</button>
+            <div class="row">
+                    <div class="col-md-4 card sm" style="width: 15rem;">
+                        <h4 class="card-title text-muted">Enjimon</h4>
+                        <img class="card-img-top" src="enjimon.png" id="enjimon_img" alt="Enjimon Image">
+                        <h6 class="card-subtitle mb-2 text-muted"><span id="enjimon_name"></span></h6>
+                        <div class="car-body">
+                            <div>Id: <span id="enjimon_id"></span></div>
+                            <div>Level: <span id="enjimon_level"></span></div>
+                            <div>Health: <span id="enjimon_endurance"></span></div>
+                            <div>Attack: <span id="enjimon_damage"></span></div>
+                            <div>Magic: <span id="enjimon_magic"></span></div>
+                            <div><b>Time to Starvation:</b> <span id="enjimon_starvation"></span></div>
+                            <div><b>Enjimon Training:</b>
+                                <span id="enjimon_training">
+                                    <button class="btn btn-primary" style="display: none; margin-left:10px;" id="trainBtn">Train</button>
+                                </span>
+                            </div>
+                            <button class="btn btn-primary btn-block" style="margin-top: 10px;" id="feedBtn">Feed</button>
                         </div>
-                        <button class="btn btn-primary btn-block" style="margin-top: 10px;" id="feedBtn">Feed</button>
                     </div>
                 
-                </div>
             </div> 
         </div>
     </div>   
